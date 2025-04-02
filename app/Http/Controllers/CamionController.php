@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Camion;
 
 class CamionController extends Controller
 {
@@ -11,7 +12,8 @@ class CamionController extends Controller
      */
     public function index()
     {
-        //
+        $camiones = Camion::paginate(10); // Obtiene 10 registros por página
+        return view('camiones.index', compact('camiones'));
     }
 
     /**

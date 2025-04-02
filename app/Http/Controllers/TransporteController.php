@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Transporte; // Asegúrate de importar el modelo Transporte
 
 class TransporteController extends Controller
 {
@@ -11,7 +12,8 @@ class TransporteController extends Controller
      */
     public function index()
     {
-        //
+        $transportes = Transporte::paginate(10); // Obtiene 10 registros por página
+        return view('transporte.index', compact('transportes'));
     }
 
     /**
