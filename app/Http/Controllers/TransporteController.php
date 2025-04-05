@@ -3,64 +3,64 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Transporte; // Asegúrate de importar el modelo Transporte
+use App\Models\Transporte;
 
 class TransporteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $transportes = Transporte::paginate(10); // Obtiene 10 registros por página
+        $transportes = Transporte::paginate(10);
         return view('transporte.index', compact('transportes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('transporte.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'codigo' => 'required|string|max:50',
+            'nombre' => 'required|string|max:100',
+            'razon_social' => 'required|string|max:150',
+        ]);
+
+        Transporte::create($request->all());
+
+        return redirect()->route('transporte.index')
+                         ->with('success', 'Transporte creado correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Transporte $transporte)
     {
-        //
+        return view('transporte.show', compact('transporte'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Transporte $transporte)
     {
-        //
+        return view('transporte.edit', compact('transporte'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Transporte $transporte)
     {
-        //
+        $request->validate([
+            'codigo' => 'required|string|max:50',
+            'nombre' => 'required|string|max:100',
+            'razon_social' => 'required|string|max:150',
+        ]);
+
+        $transporte->update($request->all());
+
+        return redirect()->route('transporte.index')
+                         ->with('success', 'Transporte actualizado correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Transporte $transporte)
     {
-        //
+        $transporte->delete();
+
+        return redirect()->route('transporte.index')
+                         ->with('success', 'Transporte eliminado correctamente.');
     }
 }

@@ -13,18 +13,22 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-});
+})->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Rutas para perfil (si no usas autenticación, podrías eliminar estas también si lo deseas)
+Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-require __DIR__.'/auth.php';
+// CRUD de Transporte (completo, sin autenticador)
+Route::resource('transporte', TransporteController::class);
 
-Route::get('/camiones', [CamionController::class, 'index']);
-Route::get('/marca', [MarcaController::class, 'index']);
-Route::get('/transporte', [TransporteController::class, 'index']);
+// Otras rutas (puedes convertirlas a recursos si deseas CRUD completo también)
+Route::get('/camiones', [CamionController::class, 'index'])->name('camiones.index');
+Route::get('/marca', [MarcaController::class, 'index'])->name('marca.index');
 
+// Puedes comentar o eliminar esta línea si ya no usas autenticación en ningún lado
+// require __DIR__.'/auth.php';
+Route::resource('marca', MarcaController::class);
 
+Route::resource('camiones', CamionController::class);

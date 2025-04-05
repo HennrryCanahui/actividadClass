@@ -7,60 +7,57 @@ use App\Models\Marca;
 
 class MarcaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $marcas = Marca::paginate(10); // Obtiene 10 registros por página
+        $marcas = Marca::paginate(10);
         return view('marca.index', compact('marcas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('marca.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'descripcion' => 'required|string|max:255',
+        ]);
+
+        Marca::create($request->all());
+
+        return redirect()->route('marca.index')->with('success', 'Marca creada correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $marca = Marca::findOrFail($id);
+        return view('marca.show', compact('marca'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $marca = Marca::findOrFail($id);
+        return view('marca.edit', compact('marca'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'descripcion' => 'required|string|max:255',
+        ]);
+
+        $marca = Marca::findOrFail($id);
+        $marca->update($request->all());
+
+        return redirect()->route('marca.index')->with('success', 'Marca actualizada correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $marca = Marca::findOrFail($id);
+        $marca->delete();
+
+        return redirect()->route('marca.index')->with('success', 'Marca eliminada correctamente.');
     }
 }
