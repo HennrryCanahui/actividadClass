@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CamionController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\TransporteController;
-
+/*
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/dashboard', function () {
+*/
+Route::get('/', function () {
     return view('dashboard');
 })->name('dashboard');
 
@@ -32,3 +32,7 @@ Route::get('/marca', [MarcaController::class, 'index'])->name('marca.index');
 Route::resource('marca', MarcaController::class);
 
 Route::resource('camiones', CamionController::class);
+
+Route::get('/proximamente', function () {
+    return view('proximamente.index');
+})->name('proximamente');

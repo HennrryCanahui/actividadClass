@@ -1,5 +1,9 @@
 @extends('layouts.app')
-
+@section('navbar-extra')
+    <a href="/" class="btn btn-outline-primary d-inline-flex align-items-center">
+        <i class="bi bi-arrow-left-square-fill me-2"></i> Inicio
+    </a>
+@endsection
 @section('content')
 
 <div class="container">
